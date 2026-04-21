@@ -82,8 +82,6 @@
   <div class="grid">
     <a class="btn" href="https://cigimessage.lovable.app/" target="_blank">Messages</a>
     <br>
-   <br>
-   <br>
     <a class="btn" href="https://wallet-stamper--cnee28.replit.app/" target="_blank">DigiCard</a>
   </div>
 
