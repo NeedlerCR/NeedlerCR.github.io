@@ -15,7 +15,7 @@ html,body{
   padding:0;
   min-height:100%;
   background:pink;
-  color:#fff;
+  color:pink;
   font-family:Arial,sans-serif;
 }
 
