@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -65,21 +66,21 @@ p{
   transform:scale(1.02);
 }
 
-/* Hidden admin button */
+/* Hidden top-right admin button */
 .admin-btn{
   position:fixed;
-  top:10px;
-  right:10px;
-  width:25px;
-  height:25px;
-  background:transparent;
+  top:8px;
+  right:8px;
+  width:28px;
+  height:28px;
+  background:#fff;
   border:none;
+  opacity:0.02;
   cursor:pointer;
-  opacity:0.03;
 }
 
 .admin-btn:hover{
-  opacity:0.2;
+  opacity:0.08;
 }
 
 /* Popup */
@@ -93,16 +94,22 @@ p{
   border:1px solid #333;
   border-radius:14px;
   padding:25px;
-  width:300px;
+  width:320px;
   text-align:center;
   z-index:1000;
 }
 
-.popup h2{
-  margin-top:0;
+input{
+  width:100%;
+  padding:12px;
+  margin-top:12px;
+  border-radius:8px;
+  border:1px solid #333;
+  background:#000;
+  color:#fff;
 }
 
-.close-btn{
+button{
   margin-top:15px;
   padding:10px 18px;
   border:none;
@@ -112,7 +119,7 @@ p{
   cursor:pointer;
 }
 
-.close-btn:hover{
+button:hover{
   background:#333;
 }
 
@@ -126,8 +133,8 @@ p{
 
 <body>
 
-<!-- Hidden top-right button -->
-<button class="admin-btn" onclick="showVisits()"></button>
+<!-- Hidden Admin Button -->
+<button class="admin-btn" onclick="openLogin()"></button>
 
 <div class="container">
   <h1>Charlie Websites</h1>
@@ -135,41 +142,120 @@ p{
 
   <div class="grid">
     <a class="btn" href="https://cigimessage.lovable.app/" target="_blank">Messages</a>
-    <a class="btn" href="https://wallet-stamper--cnee28.replit.app/" target="_blank">DigiCard</a>
-    
+    <a class="btn" href="https://yourdigicardlink.com" target="_blank">DigiCard</a>
+    <a class="btn" href="https://yourstorelink.com" target="_blank">Store</a>
+    <a class="btn" href="https://yourportfolio.com" target="_blank">Portfolio</a>
   </div>
 
-  <div class="footer">
-    Main Hub Website
-  </div>
+  <div class="footer">Main Hub Website</div>
 </div>
 
-<!-- Popup -->
-<div class="popup" id="visitPopup">
-  <h2>Website Visits</h2>
-  <p>Total Visitors:</p>
+<!-- Login Popup -->
+<div class="popup" id="loginPopup">
+  <h2>Admin Access</h2>
+  <input type="password" id="password" placeholder="Enter password">
+  <button onclick="checkPassword()">Login</button>
+</div>
+
+<!-- Stats Popup -->
+<div class="popup" id="statsPopup">
+  <h2>Total Visitors</h2>
   <h1 id="visitCount">0</h1>
-  <button class="close-btn" onclick="closePopup()">Close</button>
+  <button onclick="closePopups()">Close</button>
 </div>
 
 <script>
-/* Count visits using browser localStorage */
-let visits = localStorage.getItem("siteVisits");
+/* ===============================
+   YOUR SETTINGS
+================================= */
 
-if(!visits){
-  visits = 0;
+const SUPABASE_URL = "https://aipfgziworjuxmupdkcw.supabase.co";
+const SUPABASE_KEY = "PASTE_YOUR_ANON_KEY_HERE";
+const PASSWORD = "admin123";
+
+/* ===============================
+   COUNT VISITS
+================================= */
+
+async function addVisit(){
+
+  try{
+
+    const response = await fetch(
+      SUPABASE_URL + "/rest/v1/visits?id=eq.1",
+      {
+        headers:{
+          apikey:SUPABASE_KEY,
+          Authorization:"Bearer " + SUPABASE_KEY
+        }
+      }
+    );
+
+    const data = await response.json();
+
+    const current = data[0].count;
+
+    await fetch(
+      SUPABASE_URL + "/rest/v1/visits?id=eq.1",
+      {
+        method:"PATCH",
+        headers:{
+          "Content-Type":"application/json",
+          apikey:SUPABASE_KEY,
+          Authorization:"Bearer " + SUPABASE_KEY
+        },
+        body:JSON.stringify({
+          count: current + 1
+        })
+      }
+    );
+
+  }catch(error){
+    console.log("Visit counter error");
+  }
+
 }
 
-visits++;
-localStorage.setItem("siteVisits", visits);
+addVisit();
 
-function showVisits(){
-  document.getElementById("visitCount").innerText = visits;
-  document.getElementById("visitPopup").style.display = "block";
+/* ===============================
+   ADMIN PANEL
+================================= */
+
+function openLogin(){
+  document.getElementById("loginPopup").style.display="block";
 }
 
-function closePopup(){
-  document.getElementById("visitPopup").style.display = "none";
+function closePopups(){
+  document.getElementById("loginPopup").style.display="none";
+  document.getElementById("statsPopup").style.display="none";
+}
+
+async function checkPassword(){
+
+  const pass = document.getElementById("password").value;
+
+  if(pass !== PASSWORD){
+    alert("Wrong password");
+    return;
+  }
+
+  const response = await fetch(
+    SUPABASE_URL + "/rest/v1/visits?id=eq.1",
+    {
+      headers:{
+        apikey:SUPABASE_KEY,
+        Authorization:"Bearer " + SUPABASE_KEY
+      }
+    }
+  );
+
+  const data = await response.json();
+
+  document.getElementById("visitCount").innerText = data[0].count;
+
+  document.getElementById("loginPopup").style.display="none";
+  document.getElementById("statsPopup").style.display="block";
 }
 </script>
 
