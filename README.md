@@ -14,8 +14,8 @@ html,body{
   margin:0;
   padding:0;
   min-height:100%;
-  background:pink;
-  color:pink;
+  background:#000;
+  color:#fff;
   font-family:Arial,sans-serif;
 }
 
@@ -24,6 +24,25 @@ body{
   justify-content:center;
   align-items:center;
   padding:30px;
+}
+
+/* Top right BUTTON */
+.admin-btn{
+  position:fixed;
+  top:10px;
+  right:10px;
+  background:pink;
+  color:#000;
+  border:none;
+  padding:10px 14px;
+  border-radius:10px;
+  font-weight:bold;
+  cursor:pointer;
+  z-index:1000;
+}
+
+.admin-btn:hover{
+  background:#ff6fb3;
 }
 
 .container{
@@ -65,19 +84,6 @@ p{
   transform:scale(1.02);
 }
 
-/* Hidden admin button */
-.admin-btn{
-  position:fixed;
-  top:8px;
-  right:8px;
-  width:28px;
-  height:28px;
-  opacity:0.02;
-  border:none;
-  background:#fff;
-  cursor:pointer;
-}
-
 /* Popup */
 .popup{
   display:none;
@@ -94,7 +100,7 @@ p{
   z-index:1000;
 }
 
-button{
+button.close{
   margin-top:15px;
   padding:10px 18px;
   border:none;
@@ -104,7 +110,7 @@ button{
   cursor:pointer;
 }
 
-button:hover{
+button.close:hover{
   background:#333;
 }
 
@@ -118,8 +124,8 @@ button:hover{
 
 <body>
 
-<!-- Hidden button -->
-<button class="admin-btn" onclick="showStats()"></button>
+<!-- 🔥 PINK BUTTON (TOP RIGHT) -->
+<button class="admin-btn" onclick="showStats()">Stats</button>
 
 <div class="container">
   <h1>Charlie Websites</h1>
@@ -127,18 +133,19 @@ button:hover{
 
   <div class="grid">
     <a class="btn" href="https://cigimessage.lovable.app/" target="_blank">Messages</a>
-    <a class="btn" href="https://wallet-stamper--cnee28.replit.app/" target="_blank">DigiCard</a>
-
+    <a class="btn" href="https://yourdigicardlink.com" target="_blank">DigiCard</a>
+    <a class="btn" href="https://yourstorelink.com" target="_blank">Store</a>
+    <a class="btn" href="https://yourportfolio.com" target="_blank">Portfolio</a>
   </div>
 
   <div class="footer">Main Hub Website</div>
 </div>
 
-<!-- Stats Popup -->
+<!-- POPUP -->
 <div class="popup" id="statsPopup">
   <h2>Total Visitors</h2>
   <h1 id="visitCount">Loading...</h1>
-  <button onclick="closeStats()">Close</button>
+  <button class="close" onclick="closeStats()">Close</button>
 </div>
 
 <script>
@@ -149,7 +156,7 @@ const SUPABASE_URL = "https://aipfgziworjuxmupdkcw.supabase.co";
 const SUPABASE_KEY = "PASTE_YOUR_ANON_KEY_HERE";
 
 /* =========================
-   INCREASE VISITOR COUNT
+   INCREMENT VISITS
 ========================= */
 async function addVisit(){
 
@@ -184,14 +191,14 @@ async function addVisit(){
     );
 
   }catch(e){
-    console.log("Counter error");
+    console.log("Visit error");
   }
 }
 
 addVisit();
 
 /* =========================
-   SHOW STATS ON CLICK
+   SHOW STATS
 ========================= */
 async function showStats(){
 
