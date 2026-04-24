@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -66,21 +65,17 @@ p{
   transform:scale(1.02);
 }
 
-/* Hidden top-right admin button */
+/* Hidden admin button */
 .admin-btn{
   position:fixed;
   top:8px;
   right:8px;
   width:28px;
   height:28px;
-  background:#fff;
-  border:none;
   opacity:0.02;
+  border:none;
+  background:#fff;
   cursor:pointer;
-}
-
-.admin-btn:hover{
-  opacity:0.08;
 }
 
 /* Popup */
@@ -97,16 +92,6 @@ p{
   width:320px;
   text-align:center;
   z-index:1000;
-}
-
-input{
-  width:100%;
-  padding:12px;
-  margin-top:12px;
-  border-radius:8px;
-  border:1px solid #333;
-  background:#000;
-  color:#fff;
 }
 
 button{
@@ -133,8 +118,8 @@ button:hover{
 
 <body>
 
-<!-- Hidden Admin Button -->
-<button class="admin-btn" onclick="openLogin()"></button>
+<!-- Hidden button -->
+<button class="admin-btn" onclick="showStats()"></button>
 
 <div class="container">
   <h1>Charlie Websites</h1>
@@ -142,46 +127,35 @@ button:hover{
 
   <div class="grid">
     <a class="btn" href="https://cigimessage.lovable.app/" target="_blank">Messages</a>
-    <a class="btn" href="https://yourdigicardlink.com" target="_blank">DigiCard</a>
-    <a class="btn" href="https://yourstorelink.com" target="_blank">Store</a>
-    <a class="btn" href="https://yourportfolio.com" target="_blank">Portfolio</a>
+    <a class="btn" href="https://wallet-stamper--cnee28.replit.app/" target="_blank">DigiCard</a>
+
   </div>
 
   <div class="footer">Main Hub Website</div>
 </div>
 
-<!-- Login Popup -->
-<div class="popup" id="loginPopup">
-  <h2>Admin Access</h2>
-  <input type="password" id="password" placeholder="Enter password">
-  <button onclick="checkPassword()">Login</button>
-</div>
-
 <!-- Stats Popup -->
 <div class="popup" id="statsPopup">
   <h2>Total Visitors</h2>
-  <h1 id="visitCount">0</h1>
-  <button onclick="closePopups()">Close</button>
+  <h1 id="visitCount">Loading...</h1>
+  <button onclick="closeStats()">Close</button>
 </div>
 
 <script>
-/* ===============================
-   YOUR SETTINGS
-================================= */
-
+/* =========================
+   SUPABASE CONFIG
+========================= */
 const SUPABASE_URL = "https://aipfgziworjuxmupdkcw.supabase.co";
 const SUPABASE_KEY = "PASTE_YOUR_ANON_KEY_HERE";
-const PASSWORD = "admin123";
 
-/* ===============================
-   COUNT VISITS
-================================= */
-
+/* =========================
+   INCREASE VISITOR COUNT
+========================= */
 async function addVisit(){
 
   try{
 
-    const response = await fetch(
+    const res = await fetch(
       SUPABASE_URL + "/rest/v1/visits?id=eq.1",
       {
         headers:{
@@ -191,8 +165,7 @@ async function addVisit(){
       }
     );
 
-    const data = await response.json();
-
+    const data = await res.json();
     const current = data[0].count;
 
     await fetch(
@@ -210,37 +183,19 @@ async function addVisit(){
       }
     );
 
-  }catch(error){
-    console.log("Visit counter error");
+  }catch(e){
+    console.log("Counter error");
   }
-
 }
 
 addVisit();
 
-/* ===============================
-   ADMIN PANEL
-================================= */
+/* =========================
+   SHOW STATS ON CLICK
+========================= */
+async function showStats(){
 
-function openLogin(){
-  document.getElementById("loginPopup").style.display="block";
-}
-
-function closePopups(){
-  document.getElementById("loginPopup").style.display="none";
-  document.getElementById("statsPopup").style.display="none";
-}
-
-async function checkPassword(){
-
-  const pass = document.getElementById("password").value;
-
-  if(pass !== PASSWORD){
-    alert("Wrong password");
-    return;
-  }
-
-  const response = await fetch(
+  const res = await fetch(
     SUPABASE_URL + "/rest/v1/visits?id=eq.1",
     {
       headers:{
@@ -250,12 +205,14 @@ async function checkPassword(){
     }
   );
 
-  const data = await response.json();
+  const data = await res.json();
 
   document.getElementById("visitCount").innerText = data[0].count;
+  document.getElementById("statsPopup").style.display = "block";
+}
 
-  document.getElementById("loginPopup").style.display="none";
-  document.getElementById("statsPopup").style.display="block";
+function closeStats(){
+  document.getElementById("statsPopup").style.display = "none";
 }
 </script>
 
