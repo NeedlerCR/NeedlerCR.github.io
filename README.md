@@ -26,12 +26,12 @@ body{
   padding:30px;
 }
 
-/* Top right BUTTON */
+/* ===== TOP RIGHT PINK BUTTON ===== */
 .admin-btn{
   position:fixed;
   top:10px;
   right:10px;
-  background:pink;
+  background:#000;
   color:#000;
   border:none;
   padding:10px 14px;
@@ -42,9 +42,10 @@ body{
 }
 
 .admin-btn:hover{
-  background:#ff6fb3;
+  background:#000;
 }
 
+/* ===== MAIN LAYOUT ===== */
 .container{
   width:100%;
   max-width:600px;
@@ -84,7 +85,7 @@ p{
   transform:scale(1.02);
 }
 
-/* Popup */
+/* ===== POPUP ===== */
 .popup{
   display:none;
   position:fixed;
@@ -100,7 +101,7 @@ p{
   z-index:1000;
 }
 
-button.close{
+.close-btn{
   margin-top:15px;
   padding:10px 18px;
   border:none;
@@ -110,7 +111,7 @@ button.close{
   cursor:pointer;
 }
 
-button.close:hover{
+.close-btn:hover{
   background:#333;
 }
 
@@ -124,8 +125,8 @@ button.close:hover{
 
 <body>
 
-<!-- 🔥 PINK BUTTON (TOP RIGHT) -->
-<button class="admin-btn" onclick="showStats()">Stats</button>
+<!-- PINK STATS BUTTON -->
+<button class="admin-btn" onclick="showStats()"></button>
 
 <div class="container">
   <h1>Charlie Websites</h1>
@@ -133,7 +134,7 @@ button.close:hover{
 
   <div class="grid">
     <a class="btn" href="https://cigimessage.lovable.app/" target="_blank">Messages</a>
-    <a class="btn" href="https://yourdigicardlink.com" target="_blank">DigiCard</a>
+    <a class="btn" href="https://wallet-stamper--cnee28.replit.app/" target="_blank">DigiCard</a>
     <a class="btn" href="https://yourstorelink.com" target="_blank">Store</a>
     <a class="btn" href="https://yourportfolio.com" target="_blank">Portfolio</a>
   </div>
@@ -145,7 +146,7 @@ button.close:hover{
 <div class="popup" id="statsPopup">
   <h2>Total Visitors</h2>
   <h1 id="visitCount">Loading...</h1>
-  <button class="close" onclick="closeStats()">Close</button>
+  <button class="close-btn" onclick="closeStats()">Close</button>
 </div>
 
 <script>
@@ -153,17 +154,17 @@ button.close:hover{
    SUPABASE CONFIG
 ========================= */
 const SUPABASE_URL = "https://aipfgziworjuxmupdkcw.supabase.co";
-const SUPABASE_KEY = "PASTE_YOUR_ANON_KEY_HERE";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpcGZneml3b3JqdXhtdXBka2N3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcwMjg0ODgsImV4cCI6MjA5MjYwNDQ4OH0.RuDYMce0AJMLZ4YUQft_SyAHQ46egpkLJxXqOChwnqM";
 
 /* =========================
-   INCREMENT VISITS
+   ADD VISIT ON LOAD
 ========================= */
 async function addVisit(){
 
   try{
 
     const res = await fetch(
-      SUPABASE_URL + "/rest/v1/visits?id=eq.1",
+      SUPABASE_URL + "/rest/v1/visits?select=*",
       {
         headers:{
           apikey:SUPABASE_KEY,
@@ -173,6 +174,9 @@ async function addVisit(){
     );
 
     const data = await res.json();
+
+    if(!data.length) return;
+
     const current = data[0].count;
 
     await fetch(
@@ -191,33 +195,46 @@ async function addVisit(){
     );
 
   }catch(e){
-    console.log("Visit error");
+    console.log("Visit tracking failed");
   }
 }
 
 addVisit();
 
 /* =========================
-   SHOW STATS
+   SHOW STATS POPUP
 ========================= */
 async function showStats(){
 
-  const res = await fetch(
-    SUPABASE_URL + "/rest/v1/visits?id=eq.1",
-    {
-      headers:{
-        apikey:SUPABASE_KEY,
-        Authorization:"Bearer " + SUPABASE_KEY
+  try{
+
+    const res = await fetch(
+      SUPABASE_URL + "/rest/v1/visits?select=*",
+      {
+        headers:{
+          apikey:SUPABASE_KEY,
+          Authorization:"Bearer " + SUPABASE_KEY
+        }
       }
+    );
+
+    const data = await res.json();
+
+    if(!data.length){
+      document.getElementById("visitCount").innerText = "0";
+    } else {
+      document.getElementById("visitCount").innerText = data[0].count;
     }
-  );
 
-  const data = await res.json();
+    document.getElementById("statsPopup").style.display = "block";
 
-  document.getElementById("visitCount").innerText = data[0].count;
-  document.getElementById("statsPopup").style.display = "block";
+  }catch(err){
+    console.log(err);
+    alert("Error loading stats");
+  }
 }
 
+/* CLOSE POPUP */
 function closeStats(){
   document.getElementById("statsPopup").style.display = "none";
 }
