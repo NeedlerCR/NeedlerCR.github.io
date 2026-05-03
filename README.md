@@ -140,7 +140,7 @@ p{
   </div>
 
   <div class="footer">Main Hub Website</div>
-  <div class="footer">©️ Charlie Needler 2026</div>
+  <div class="footer"><a href="https://needlercr.github.io/Charlie-Needler/">©️ Charlie Needler 2026</a></div>
 </div>
 
 <!-- POPUP -->
