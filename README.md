@@ -136,7 +136,7 @@ p{
     <a class="btn" href="https://cigimessage.lovable.app/" target="_blank">Messages</a>
     <a class="btn" href="https://wallet-stamper--cnee28.replit.app/" target="_blank">DigiCard</a>
     <a class="btn" href="https://lifesync-ffz4byts.manus.space/" target="_blank">Habit Tracker</a>
-    <a class="btn" href="https://yourportfolio.com" target="_blank">Portfolio</a>
+    <a class="btn" href="https://splitly-money.base44.app" target="_blank">Splitly - Money tracker</a>
   </div>
 
   <div class="footer">Main Hub Website</div>
