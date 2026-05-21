@@ -137,7 +137,7 @@ p{
     <a class="btn" href="https://wallet-stamper--cnee28.replit.app/" target="_blank">DigiCard</a>
     <a class="btn" href="https://lifesync-ffz4byts.manus.space/" target="_blank">Habit Tracker</a>
     <a class="btn" href="https://splitly-money.base44.app" target="_blank">Splitly - Money tracker</a>
-    <a class="btn" href="https://ust-calc--franker-tweak-6.replit.app/" target="_blank">UST Calculator</a>
+    <a class="btn" href="https://ust-calc--franker-tweak-6.replit.app/" target="_blank">UST Calculator - OUTDATED</a>
   </div>
 
   <div class="footer">Main Hub Website</div>
