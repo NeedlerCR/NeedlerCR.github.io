@@ -138,6 +138,7 @@ p{
     <a class="btn" href="https://lifesync-ffz4byts.manus.space/" target="_blank">Habit Tracker</a>
     <a class="btn" href="https://splitly-money.base44.app" target="_blank">Splitly - Money tracker</a>
     <a class="btn" href="https://interplanetarystandardtime.lovable.app/" target="_blank">IST CENTRE</a>
+    <a class="btn" href="https://creator-reply-bot--boars-beadier.replit.app/" target="_blank">Content Replier</a>
   </div>
 
   <div class="footer">Main Hub Website</div>
