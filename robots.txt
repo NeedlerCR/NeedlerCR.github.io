@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://needlercr.github.io/sitemap.xml
